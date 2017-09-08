@@ -93,7 +93,7 @@ proc onButtonPressEvent(widget: DrawingArea; event: EventButton): bool =
     p1, x, y: int
     xf, yf: float
   for i in mitems(tagged): i = 0
-  assert getCoords(event, xf, yf)
+  doassert getCoords(event, xf, yf)
   x =  int(xf) div (widget.getAllocatedWidth div 8)
   y = int(yf) div (widget.getAllocatedHeight div 8)
   if state == State.U0:
