@@ -49,7 +49,6 @@ proc drawIt(cr: cairo.Context; widget: Widget)  =
   desc = newFontDescription(Font)
   desc.absoluteSize = (min(width, height) div 8 * pango.Scale).float
   layout.setFontDescription(desc)
-  pango.free(desc) # TODO: fix pango module
   for i, f in board:
     if tagged[i] < 0:
       cr.setSourceRgba(0, 0, 0, 0.5)
@@ -132,7 +131,7 @@ proc onDrawEvent(widget: DrawingArea; cr: cairo.Context): bool=
 proc activate(app: Application) =
   let window = newApplicationWindow(app)
   var darea = newDrawingArea()
-  darea.addEvents(EventMask.button_press_mask.ord)
+  darea.addEvents({EventFlag.buttonPress})
   window.add(darea)
   connect(darea, "draw", onDrawEvent)
   ButtonHandler_ID = connect(darea, "button-press-event", onButtonPressEvent)
