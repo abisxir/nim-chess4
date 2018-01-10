@@ -40,9 +40,9 @@ proc drawIt(cr: cairo.Context; widget: Widget)  =
       else:
         h = 0
     if i mod 2 != (i div 8) mod 2:
-      cr.setSourceRgba(0.9, 0.9, 0.9 - h, 1)
+      cr.setSource(0.9, 0.9, 0.9 - h, 1)
     else:
-      cr.setSourceRgba(1, 1, 1 - h, 1)
+      cr.setSource(1, 1, 1 - h, 1)
     cr.rectangle(float((i mod 8) * w8), float((i div 8) * h8), w8.float, h8.float)
     cr.fill
   layout = createLayout(cr)
@@ -51,9 +51,9 @@ proc drawIt(cr: cairo.Context; widget: Widget)  =
   layout.setFontDescription(desc)
   for i, f in board:
     if tagged[i] < 0:
-      cr.setSourceRgba(0, 0, 0, 0.5)
+      cr.setSource(0, 0, 0, 0.5)
     else:
-      cr.setSourceRgba(0, 0, 0, 1)
+      cr.setSource(0, 0, 0, 1)
     layout.setText(Figures[f], -1)
     cr.updateLayout(layout)
     layout.getSize(w, h)
@@ -128,7 +128,7 @@ proc onDrawEvent(widget: DrawingArea; cr: cairo.Context): bool=
   drawIt(cr, widget)
   return false
 
-proc activate(app: Application) =
+proc appActivate(app: Application) =
   let window = newApplicationWindow(app)
   var darea = newDrawingArea()
   darea.addEvents({EventFlag.buttonPress})
@@ -142,7 +142,8 @@ proc activate(app: Application) =
 
 proc main =
   let app = newApplication("org.gtk.example")
-  connect(app, "activate", activate)
+  #connect(app, "activate", board.activate)
+  connect(app, "activate", appActivate)
   discard run(app)
 
 main()
